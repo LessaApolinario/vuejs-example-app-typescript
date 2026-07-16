@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+
 ARG SERVER_PORT=8000
 ARG NODE_VERSION=24-alpine
 
@@ -26,6 +27,8 @@ RUN yarn run build
 
 FROM base AS final
 
+RUN yarn global add serve
+
 USER node
 
 COPY package.json .
@@ -35,4 +38,4 @@ COPY --from=build /usr/src/app/dist ./dist
 
 EXPOSE ${SERVER_PORT}
 
-CMD ["yarn", "dev"]
+CMD ["sh", "-c", "serve -s dist -l tcp://0.0.0.0:${SERVER_PORT}"]
