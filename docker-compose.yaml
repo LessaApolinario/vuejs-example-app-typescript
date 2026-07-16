@@ -1,0 +1,14 @@
+services:
+  vuejs-example-app-typescript:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.main
+      args:
+        NODE_VERSION: ${NODE_VERSION:-24-alpine}
+        SERVER_PORT: ${SERVER_PORT:-8000}
+    container_name: vuejs-example-app-typescript
+    restart: always
+    ports:
+      - "${SERVER_PORT:-8000}:${SERVER_PORT:-8000}"
+    env_file:
+      - .env
